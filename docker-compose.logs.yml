@@ -1,0 +1,32 @@
+services:
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: dating-loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    networks:
+      - dating-app
+
+  promtail:
+    image: grafana/promtail:3.0.0
+    container_name: dating-promtail
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./observability/promtail-config.yml:/etc/promtail/config.yml:ro
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - dating-app
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: dating-grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - dating-app
+
+networks:
+  dating-app:
+    external: true
