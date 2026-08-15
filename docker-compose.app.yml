@@ -1,0 +1,19 @@
+services:
+  example-service:
+    image: dating-example-service:dev
+    container_name: dating-example-service
+    ports:
+      - "18080:18080"
+    environment:
+      TZ: UTC
+      EXAMPLE_PORT: 18080
+      NACOS_SERVER_ADDR: ${NACOS_SERVER_ADDR:-}
+      NACOS_NAMESPACE: ${NACOS_NAMESPACE:-}
+      NACOS_USERNAME: ${NACOS_USERNAME:-}
+      NACOS_PASSWORD: ${NACOS_PASSWORD:-}
+    networks:
+      - dating-app
+
+networks:
+  dating-app:
+    external: true
