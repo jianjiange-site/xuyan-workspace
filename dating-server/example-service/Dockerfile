@@ -11,8 +11,10 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
+ENV TZ=UTC
+
 COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 18080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Duser.timezone=UTC", "-jar", "app.jar"]
